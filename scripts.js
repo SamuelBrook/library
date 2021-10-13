@@ -24,9 +24,6 @@ for (let i = 0; i < myLibrary.length; i++) {
     displayBookCard(myLibrary[i]);
 }
 
-
-
-
 function displayBookCard(book) {
     const bookContainer = document.querySelector("#container");
     const bookCard = document.createElement("div");
@@ -40,12 +37,24 @@ function displayBookCard(book) {
 
     addAuthor(bookCard, book);
 
-
-    
-    
-
-
+    addButtons(bookCard);
 }
+
+
+
+
+
+const button = document.querySelector("#new-book-button");
+button.addEventListener("click", () => {
+    const newBookFormContainer = document.querySelector("#form-container");
+    const newBookForm = document.createElement("form");
+    newBookForm.setAttribute("id", "new-book-form");
+    newBookFormContainer.appendChild(newBookForm);
+    createLabelandInput(newBookForm);
+})
+
+
+
 
 function createTitle(bookCard, book) {
     let bookTitle = document.createElement("div");
@@ -65,7 +74,7 @@ function addPages(bookCard, book) {
     let bookPages = document.createElement("div");
     bookPages.classList.add("book-pages");
     bookCard.appendChild(bookPages);
-    bookPages.textContent = `Pages: ${book.page}`;
+    bookPages.textContent = `Pages: ${book.pages}`;
 }
 
 function addReadStatus(bookCard, book) {
@@ -80,32 +89,76 @@ function addReadStatus(bookCard, book) {
     }
 }
 
-function openNewBookForm() {
-    
+function addRemoveButton(element) {
+    let bookRemoveButton = document.createElement("button");
+    bookRemoveButton.classList.add("remove-button");
+    element.appendChild(bookRemoveButton);
+    bookRemoveButton.textContent = "REMOVE";
 }
 
-const button = document.querySelector("#new-book-button");
-button.addEventListener("click", () => {
-    const newBookFormContainer = document.querySelector("#form-container");
-    const newBookForm = document.createElement("form");
-    newBookForm.setAttribute("id", "new-book-form");
-    newBookFormContainer.appendChild(newBookForm);
-    createLabelandInput(newBookForm);
+function addReadStatusButton(element) {
+    let readStatusButton = document.createElement("button");
+    readStatusButton.classList.add("read-status-button");
+    element.appendChild(readStatusButton);
+    readStatusButton.textContent = "READ STATUS";
 
+}
 
-
-})
+function addButtons(bookCard) {
+    let buttonBox = document.createElement("div");
+    buttonBox.classList.add("button-box");
+    bookCard.appendChild(buttonBox);
+    addReadStatusButton(buttonBox);
+    addRemoveButton(buttonBox);
+}
 
 function createLabelandInput(newBookForm) {
-    const label = document.createElement("label");
-    label.htmlFor = "title";
-    newBookForm.appendChild(label);
-    label.textContent = "Title";
+    const titleLabel = document.createElement("label");
+    titleLabel.htmlFor = "title";
+    newBookForm.appendChild(titleLabel);
+    titleLabel.textContent = "Title:";
 
-    const input = document.createElement("input");
-    input.type = "text";
-    input.setAttribute("id", "title");
-    newBookForm.appendChild(input);
+    const titleInput = document.createElement("input");
+    titleInput.type = "text";
+    titleInput.setAttribute("id", "title");
+    newBookForm.appendChild(titleInput);
+
+    const authorLabel = document.createElement("label");
+    authorLabel.htmlFor = "author";
+    newBookForm.appendChild(authorLabel);
+    authorLabel.textContent = "Author:";
+
+    const authorInput = document.createElement("input");
+    authorInput.type = "text";
+    authorInput.setAttribute("id", "author");
+    newBookForm.appendChild(authorInput);
+
+    const pagesLabel = document.createElement("label");
+    pagesLabel.htmlFor = "pages";
+    newBookForm.appendChild(pagesLabel);
+    pagesLabel.textContent = "Pages:";
+
+    const pagesInput = document.createElement("input");
+    pagesInput.type = "text";
+    pagesInput.setAttribute("id", "pages");
+    newBookForm.appendChild(pagesInput);
+
+    const readLabel = document.createElement("label");
+    readLabel.htmlFor = "read-status";
+    readLabel.setAttribute("id", "read-label");
+    newBookForm.appendChild(readLabel);
+    readLabel.textContent = "Have you read the book?";
+
+    const readInput = document.createElement("input");
+    readInput.type = "checkbox";
+    readInput.setAttribute("id", "read-status");
+    newBookForm.appendChild(readInput);
+
+    const submitInput = document.createElement("input");
+    submitInput.setAttribute("id", "submit");
+    submitInput.type = "submit";
+    submitInput.value = "Submit";
+    newBookForm.appendChild(submitInput);
 }
 
 
