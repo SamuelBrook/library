@@ -21,6 +21,34 @@ for (let i = 0; i < myLibrary.length; i++) {
     displayBookCard(myLibrary[i]);
 }
 
+const readStatusButtons = document.querySelectorAll(".read-status-button");
+readStatusButtons.forEach((readStatusButton) => {
+    readStatusButton.addEventListener("click", () => {
+
+        for (let i = 0; i < myLibrary.length; i++) {
+            if (myLibrary[i].title === readStatusButton.id) {
+                if (myLibrary[i].read === true) {
+                    myLibrary[i].read = false;
+                }
+                else {
+                    myLibrary[i].read = true;
+                }
+                let readStatuses = document.querySelectorAll(".book-read-status");
+                readStatuses.forEach((readStatus) => {
+                    if (readStatus.id === readStatusButton.id) {
+                        if (myLibrary[i].read === false) {
+                            readStatus.textContent = "Finished: No";
+                        }
+                        else {
+                            readStatus.textContent = "Finished: Yes";
+                        }
+                    }
+                })
+            }
+        }
+    })
+})
+
 const removeButtons = document.querySelectorAll(".remove-button");
 removeButtons.forEach((removeButton) => {
     removeButton.addEventListener("click", () => {
@@ -41,7 +69,29 @@ newBookButton.addEventListener("click", () => {
     newBookForm.setAttribute("id", "new-book-form");
     newBookFormContainer.appendChild(newBookForm);
     createLabelandInput(newBookForm);
-    newBookButton.disabled = true;
+    // newBookButton.disabled = true;
+
+    const formSubmit = document.querySelector("#submit");
+    formSubmit.addEventListener("click", () => {
+
+
+
+        let title1 = document.getElementById("title");
+        let title = title1.textContent;
+
+        console.log(title);
+        // let author = getElementsbyName(authorInput).textContent;
+        // let pages = getElementsbyName(pagesInput).textContent;
+        // let read = getElementsbyName(readInput).textContent;
+        // let title = "Hi";
+        let author = "hit";
+        let pages = 500;
+        let read = true;
+
+        let newBook = new Book(title, author, pages, read);
+        addBookToLibrary(newBook);
+        displayBookCard(newBook);
+    })
 })
 
 
@@ -109,12 +159,13 @@ function addPages(bookCard, book) {
 function addReadStatus(bookCard, book) {
     let bookReadStatus = document.createElement("div");
     bookReadStatus.classList.add("book-read-status");
-    bookCard.appendChild(bookReadStatus);
+    bookReadStatus.setAttribute("id", book.title);
+;    bookCard.appendChild(bookReadStatus);
     if (book.read === true) {
-        bookReadStatus.textContent = "Read: Yes";
+        bookReadStatus.textContent = "Finished: Yes";
     }
     else {
-        bookReadStatus.textContent = "Read: No";
+        bookReadStatus.textContent = "Finished: No";
     }
 }
 
@@ -178,7 +229,7 @@ function createLabelandInput(newBookForm) {
     readLabel.htmlFor = "read-status";
     readLabel.setAttribute("id", "read-label");
     newBookForm.appendChild(readLabel);
-    readLabel.textContent = "Have you read the book?";
+    readLabel.textContent = "Have you finished reading the book?";
 
     const readInput = document.createElement("input");
     readInput.type = "checkbox";
@@ -187,7 +238,7 @@ function createLabelandInput(newBookForm) {
 
     const submitInput = document.createElement("input");
     submitInput.setAttribute("id", "submit");
-    submitInput.type = "submit";
+    submitInput.type = "button";
     submitInput.value = "Submit";
     newBookForm.appendChild(submitInput);
 }
