@@ -30,6 +30,7 @@ body {
     flex-direction: column;
     gap: 5px;
     color: white;
+    font-size: large;
 }
 
 #form-container {

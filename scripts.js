@@ -7,9 +7,7 @@ function Book(title, author, pages, read) {
     this.read = read
 }
 
-function addBookToLibrary(book) {
-    myLibrary.push(book);
-}
+let newBook;
 
 let theHobbit = new Book("The Hobbit", "J.R.R. Tolkien", 295, false);
 let theLordOftheRings = new Book("The Lord of The Rings", "J.R.R. Tolkien", 1135, true);
@@ -18,15 +16,62 @@ let theSilmarillion = new Book("The Silmarillion", "J.R.R. Tolkien", 355, false)
 addBookToLibrary(theHobbit);
 addBookToLibrary(theLordOftheRings);
 addBookToLibrary(theSilmarillion);
-console.log(myLibrary);
 
 for (let i = 0; i < myLibrary.length; i++) {
     displayBookCard(myLibrary[i]);
 }
 
+const removeButtons = document.querySelectorAll(".remove-button");
+removeButtons.forEach((removeButton) => {
+    removeButton.addEventListener("click", () => {
+        console.log("Hello,world");
+        let boxes = document.querySelectorAll(".book-card");
+        boxes.forEach((box) => {
+            if (removeButton.id === box.id) {
+                box.remove();
+            }
+        })
+    })
+})
+
+const newBookButton = document.querySelector("#new-book-button");
+newBookButton.addEventListener("click", () => {
+    const newBookFormContainer = document.querySelector("#form-container");
+    const newBookForm = document.createElement("form");
+    newBookForm.setAttribute("id", "new-book-form");
+    newBookFormContainer.appendChild(newBookForm);
+    createLabelandInput(newBookForm);
+    newBookButton.disabled = true;
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// functions
+
+function addBookToLibrary(book) {
+    myLibrary.push(book);
+}
+
 function displayBookCard(book) {
     const bookContainer = document.querySelector("#container");
     const bookCard = document.createElement("div");
+    bookCard.setAttribute("id", book.title);
     bookCard.classList.add("book-card");
     bookContainer.appendChild(bookCard);
 
@@ -37,24 +82,8 @@ function displayBookCard(book) {
 
     addAuthor(bookCard, book);
 
-    addButtons(bookCard);
+    addButtons(bookCard, book);
 }
-
-
-
-
-
-const button = document.querySelector("#new-book-button");
-button.addEventListener("click", () => {
-    const newBookFormContainer = document.querySelector("#form-container");
-    const newBookForm = document.createElement("form");
-    newBookForm.setAttribute("id", "new-book-form");
-    newBookFormContainer.appendChild(newBookForm);
-    createLabelandInput(newBookForm);
-})
-
-
-
 
 function createTitle(bookCard, book) {
     let bookTitle = document.createElement("div");
@@ -89,27 +118,29 @@ function addReadStatus(bookCard, book) {
     }
 }
 
-function addRemoveButton(element) {
+function addRemoveButton(element, book) {
     let bookRemoveButton = document.createElement("button");
     bookRemoveButton.classList.add("remove-button");
+    bookRemoveButton.setAttribute("id", book.title);
     element.appendChild(bookRemoveButton);
     bookRemoveButton.textContent = "REMOVE";
 }
 
-function addReadStatusButton(element) {
+function addReadStatusButton(element, book) {
     let readStatusButton = document.createElement("button");
     readStatusButton.classList.add("read-status-button");
+    readStatusButton.setAttribute("id", book.title);
     element.appendChild(readStatusButton);
     readStatusButton.textContent = "READ STATUS";
 
 }
 
-function addButtons(bookCard) {
+function addButtons(bookCard, book) {
     let buttonBox = document.createElement("div");
     buttonBox.classList.add("button-box");
     bookCard.appendChild(buttonBox);
-    addReadStatusButton(buttonBox);
-    addRemoveButton(buttonBox);
+    addReadStatusButton(buttonBox, book);
+    addRemoveButton(buttonBox, book);
 }
 
 function createLabelandInput(newBookForm) {
