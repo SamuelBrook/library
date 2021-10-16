@@ -7,19 +7,22 @@ function Book(title, author, pages, read) {
     this.read = read
 }
 
-let newBook;
-
 let theHobbit = new Book("The Hobbit", "J.R.R. Tolkien", 295, false);
 let theLordOftheRings = new Book("The Lord of The Rings", "J.R.R. Tolkien", 1135, true);
 let theSilmarillion = new Book("The Silmarillion", "J.R.R. Tolkien", 355, false);
+let theSilmarillion2 = new Book("The Silmarillion", "J.R.R. Tolkien", 355, false);
 
 addBookToLibrary(theHobbit);
 addBookToLibrary(theLordOftheRings);
 addBookToLibrary(theSilmarillion);
+addBookToLibrary(theSilmarillion2);
+
 
 for (let i = 0; i < myLibrary.length; i++) {
     displayBookCard(myLibrary[i]);
 }
+
+let newBookEnabled = true;
 
 const readStatusButtons = document.querySelectorAll(".read-status-button");
 readStatusButtons.forEach((readStatusButton) => {
@@ -64,55 +67,30 @@ removeButtons.forEach((removeButton) => {
 
 const newBookButton = document.querySelector("#new-book-button");
 newBookButton.addEventListener("click", () => {
-    const newBookFormContainer = document.querySelector("#form-container");
-    const newBookForm = document.createElement("form");
-    newBookForm.setAttribute("id", "new-book-form");
-    newBookFormContainer.appendChild(newBookForm);
-    createLabelandInput(newBookForm);
-    // newBookButton.disabled = true;
+    if (newBookEnabled === true) {
+        const newBookFormContainer = document.querySelector("#form-container");
+        const newBookForm = document.createElement("form");
+        newBookForm.setAttribute("id", "new-book-form");
+        newBookFormContainer.appendChild(newBookForm);
+        createLabelandInput(newBookForm);
 
-    const formSubmit = document.querySelector("#submit");
-    formSubmit.addEventListener("click", () => {
+        newBookEnabled = false;
 
-
-
-        let title1 = document.getElementById("title");
-        let title = title1.textContent;
-
-        console.log(title);
-        // let author = getElementsbyName(authorInput).textContent;
-        // let pages = getElementsbyName(pagesInput).textContent;
-        // let read = getElementsbyName(readInput).textContent;
-        // let title = "Hi";
-        let author = "hit";
-        let pages = 500;
-        let read = true;
-
-        let newBook = new Book(title, author, pages, read);
-        addBookToLibrary(newBook);
-        displayBookCard(newBook);
-    })
+        const formSubmit = document.querySelector("#submit");
+        formSubmit.addEventListener("click", () => {
+            newBookEnabled = true;
+            let title = document.getElementById("title").value;
+            let author = document.getElementById("author").value;
+            let pages = document.getElementById("pages").value;
+            let readStatus = document.getElementById("read-status");
+            let newBook = new Book(title, author, pages, readStatus.checked);
+            addBookToLibrary(newBook);
+            displayBookCard(newBook);
+            newBookForm.remove();
+        })
+    }
 })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// functions
 
 function addBookToLibrary(book) {
     myLibrary.push(book);
