@@ -1,4 +1,6 @@
 let myLibrary = [];
+myLibrary = findArrayInLocalStorage();
+console.log(myLibrary);
 
 function Book(title, author, pages, read) {
     this.title = title
@@ -7,15 +9,11 @@ function Book(title, author, pages, read) {
     this.read = read
 }
 
-let theHobbit = new Book("The Hobbit", "J.R.R. Tolkien", 295, false);
-let theLordOftheRings = new Book("The Lord of The Rings", "J.R.R. Tolkien", 1135, true);
-let theSilmarillion = new Book("The Silmarillion", "J.R.R. Tolkien", 355, false);
-let theSilmarillion2 = new Book("The Silmarillion", "J.R.R. Tolkien", 355, false);
+// if (myLibrary.length < 1) {
+//     let theHobbit = new Book("The Hobbit", "J.R.R. Tolkien", 295, false);
+//     addBookToLibrary(theHobbit);
+// }
 
-addBookToLibrary(theHobbit);
-addBookToLibrary(theLordOftheRings);
-addBookToLibrary(theSilmarillion);
-addBookToLibrary(theSilmarillion2);
 
 
 for (let i = 0; i < myLibrary.length; i++) {
@@ -27,7 +25,6 @@ let newBookEnabled = true;
 const readStatusButtons = document.querySelectorAll(".read-status-button");
 readStatusButtons.forEach((readStatusButton) => {
     readStatusButton.addEventListener("click", () => {
-
         for (let i = 0; i < myLibrary.length; i++) {
             if (myLibrary[i].title === readStatusButton.id) {
                 if (myLibrary[i].read === true) {
@@ -36,6 +33,7 @@ readStatusButtons.forEach((readStatusButton) => {
                 else {
                     myLibrary[i].read = true;
                 }
+                saveArrayToLocalStorage(myLibrary);
                 let readStatuses = document.querySelectorAll(".book-read-status");
                 readStatuses.forEach((readStatus) => {
                     if (readStatus.id === readStatusButton.id) {
@@ -55,13 +53,30 @@ readStatusButtons.forEach((readStatusButton) => {
 const removeButtons = document.querySelectorAll(".remove-button");
 removeButtons.forEach((removeButton) => {
     removeButton.addEventListener("click", () => {
-        console.log("Hello,world");
-        let boxes = document.querySelectorAll(".book-card");
-        boxes.forEach((box) => {
-            if (removeButton.id === box.id) {
-                box.remove();
-            }
-        })
+        myLibrary = findArrayInLocalStorage();
+        console.log(myLibrary)
+        
+        // if (myLibrary.length < 2) {
+        //     myLibrary = [];
+        //     saveArrayToLocalStorage(myLibrary);
+        // }
+        // else {
+        
+
+        //     for (let i = 0; i < myLibrary.length; i++) {
+        //         if (myLibrary[i].title === removeButton.id) {
+        //             myLibrary.splice(myLibrary[i], 1);
+        //             saveArrayToLocalStorage(myLibrary);
+        //         }
+        //     }
+        // // }
+        // let boxes = document.querySelectorAll(".book-card");
+        // boxes.forEach((box) => {
+        //     if (removeButton.id === box.id) {
+        //         box.remove();
+        //     }
+
+        // })
     })
 })
 
@@ -85,8 +100,9 @@ newBookButton.addEventListener("click", () => {
             let readStatus = document.getElementById("read-status");
             let newBook = new Book(title, author, pages, readStatus.checked);
             addBookToLibrary(newBook);
-            displayBookCard(newBook);
             newBookForm.remove();
+            saveArrayToLocalStorage(myLibrary);
+            location.reload();
         })
     }
 })
@@ -102,14 +118,10 @@ function displayBookCard(book) {
     bookCard.setAttribute("id", book.title);
     bookCard.classList.add("book-card");
     bookContainer.appendChild(bookCard);
-
     createTitle(bookCard, book);
-
     addPages(bookCard, book);
     addReadStatus(bookCard, book);
-
     addAuthor(bookCard, book);
-
     addButtons(bookCard, book);
 }
 
@@ -221,4 +233,10 @@ function createLabelandInput(newBookForm) {
     newBookForm.appendChild(submitInput);
 }
 
+function saveArrayToLocalStorage(library) {
+    window.localStorage.setItem("library", JSON.stringify(library));
+}
 
+function findArrayInLocalStorage() {
+    return JSON.parse(window.localStorage.getItem("library"));
+}
