@@ -1,5 +1,8 @@
 let myLibrary = [];
 myLibrary = findArrayInLocalStorage();
+if (myLibrary === null) {
+    myLibrary = [];
+}
 
 console.log(myLibrary);
 
@@ -10,10 +13,11 @@ function Book(title, author, pages, read) {
     this.read = read
 }
 
-if (myLibrary === null) {
+if (myLibrary.length < 1) {
     let theHobbit = new Book("The Hobbit", "J.R.R. Tolkien", 295, false);
     addBookToLibrary(theHobbit);
 }
+
 
 for (let i = 0; i < myLibrary.length; i++) {
     displayBookCard(myLibrary[i]);
