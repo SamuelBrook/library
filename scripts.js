@@ -10,7 +10,7 @@ function Book(title, author, pages, read) {
     this.read = read
 }
 
-if (myLibrary.length < 1 || myLibrary === null) {
+if (myLibrary === null) {
     let theHobbit = new Book("The Hobbit", "J.R.R. Tolkien", 295, false);
     addBookToLibrary(theHobbit);
 }
