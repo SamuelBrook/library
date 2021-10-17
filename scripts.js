@@ -9,10 +9,10 @@ function Book(title, author, pages, read) {
     this.read = read
 }
 
-// if (myLibrary.length < 1) {
-//     let theHobbit = new Book("The Hobbit", "J.R.R. Tolkien", 295, false);
-//     addBookToLibrary(theHobbit);
-// }
+if (myLibrary.length < 1) {
+    let theHobbit = new Book("The Hobbit", "J.R.R. Tolkien", 295, false);
+    addBookToLibrary(theHobbit);
+}
 
 
 
@@ -54,29 +54,19 @@ const removeButtons = document.querySelectorAll(".remove-button");
 removeButtons.forEach((removeButton) => {
     removeButton.addEventListener("click", () => {
         myLibrary = findArrayInLocalStorage();
-        console.log(myLibrary)
-        
-        // if (myLibrary.length < 2) {
-        //     myLibrary = [];
-        //     saveArrayToLocalStorage(myLibrary);
-        // }
-        // else {
-        
-
-        //     for (let i = 0; i < myLibrary.length; i++) {
-        //         if (myLibrary[i].title === removeButton.id) {
-        //             myLibrary.splice(myLibrary[i], 1);
-        //             saveArrayToLocalStorage(myLibrary);
-        //         }
-        //     }
-        // // }
-        // let boxes = document.querySelectorAll(".book-card");
-        // boxes.forEach((box) => {
-        //     if (removeButton.id === box.id) {
-        //         box.remove();
-        //     }
-
-        // })
+        for (let i = 0; i < myLibrary.length; i++) {
+            if (myLibrary[i].title === removeButton.id) {
+                myLibrary.splice(i, 1);
+                saveArrayToLocalStorage(myLibrary);
+                console.log(myLibrary);
+            }
+        }
+        let boxes = document.querySelectorAll(".book-card");
+        boxes.forEach((box) => {
+            if (removeButton.id === box.id) {
+                box.remove();
+            }
+        })
     })
 })
 
