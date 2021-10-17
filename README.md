@@ -1,1 +1,1 @@
-Creating an online library which can store user data for later use. 
+Creating a simple online library which can store user data for later use. Allows users to create book cards which display basic information about books they may have read or want to read in the future. Book cards can be deleted using the remove button and the read status of the book can be modified. New book cards can be added with the new book button.

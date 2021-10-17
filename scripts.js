@@ -14,8 +14,6 @@ if (myLibrary.length < 1) {
     addBookToLibrary(theHobbit);
 }
 
-
-
 for (let i = 0; i < myLibrary.length; i++) {
     displayBookCard(myLibrary[i]);
 }
